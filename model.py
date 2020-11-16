@@ -61,7 +61,8 @@ class Model(nn.Module):
 
         """ Prediction """
         if opt.Prediction == 'CTC':
-            self.Prediction = nn.Linear(self.SequenceModeling_output, opt.num_class)
+            #self.Prediction = nn.Linear(self.SequenceModeling_output, opt.num_class)
+            self.Prediction2 = nn.Linear(self.SequenceModeling_output, opt.num_class)
         elif opt.Prediction == 'Attn':
             self.Prediction = Attention(self.SequenceModeling_output, opt.hidden_size, opt.num_class)
         else:
@@ -85,7 +86,8 @@ class Model(nn.Module):
 
         """ Prediction stage """
         if self.stages['Pred'] == 'CTC':
-            prediction = self.Prediction(contextual_feature.contiguous())
+            #prediction = self.Prediction(contextual_feature.contiguous())
+            prediction = self.Prediction2(contextual_feature.contiguous())
         else:
             prediction = self.Prediction(contextual_feature.contiguous(), text, is_train, batch_max_length=self.opt.batch_max_length)
 
